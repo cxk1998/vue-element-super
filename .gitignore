@@ -1,0 +1,6 @@
+#############
+## Python
+#############
+.idea
+node_modules
+dist
