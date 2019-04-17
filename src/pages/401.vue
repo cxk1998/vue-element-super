@@ -1,3 +1,0 @@
-<template>
-  <p>401 page not found</p>
-</template>
