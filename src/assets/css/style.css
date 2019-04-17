@@ -1,0 +1,210 @@
+/*
+  create by Egret in 2018/5/7
+  reset           样式重置
+  layout          布局
+  public          公用样式
+  reset-uiBank    第三方ui库,插件样式修改
+*/
+
+/* ----------------------- reset ----------------------- */
+
+* {
+  padding: 0;
+  margin: 0
+}
+
+body {
+  height: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  /*font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;*/
+  font-size: 14px;
+  color: #393939;
+  background-color: #fff;
+}
+
+label {
+  font-weight: 700;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app{
+  height: 100%;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+input {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+a {
+  color:#428bca;
+  text-decoration: none
+}
+a:hover{
+  text-decoration: underline;
+}
+/***search-bar***/
+.search-bar {
+  padding: 10px;
+  float: left;
+  width: 100%;
+}
+.search-bar .el-form-item{
+  margin-bottom: 0;
+}
+.search-bar .el-form-item .el-input {
+  width: 150px;
+}
+.search-bar .el-form .el-button{
+  margin-left: 15px;
+  margin-top: 4px;
+}
+
+/* ----------------------- public ---------------------- */
+
+/* 引入阿里矢量图 https: */
+@font-face {
+  font-family: 'atsFont';  /* project id 656395 */
+  src: url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.eot');
+  src: url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.svg#atsFont') format('svg');
+}
+
+/* 配合阿里矢量图使用 */
+.atsFont {
+  font-family: "atsFont";
+  font-size: 16px;
+  font-style: normal;
+}
+
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
+}
+
+.clearfix { /*兼容 IE*/
+  zoom: 1;
+}
+
+.set-left {
+  float: left
+}
+.text-align-center {
+  text-align: center;
+}
+.set-right {
+  float: right
+}
+
+.vue-contextmenu-listWrapper .context-menu-list button i{
+  margin-top: 3px;
+}
+
+.default{
+  background-color: #abbac3!important;
+  border-color: #abbac3;
+  color: #FFF!important;
+}
+.primary{
+  background-color: #428bca!important;
+  border-color: #428bca;
+  color: #FFF!important;
+}
+.info{
+  background-color: #6fb3e0!important;
+  border-color: #6fb3e0;
+  color: #FFF!important;
+}
+.success{
+  background-color: #87b87f!important;
+  border-color: #87b87f;
+  color: #FFF!important;
+}
+.warning{
+  background-color: #ffb752!important;
+  border-color: #ffb752;
+  color: #FFF!important;
+}
+.danger{
+  background-color: #d3413b!important;
+  border-color: #d15b47;
+  color: #FFF!important;
+}
+.pink{
+  background-color: #b73766!important;
+  border-color: #d6487e;
+  color: #FFF!important;
+}
+.inverse{
+  background-color: #555!important;
+  border-color: #555;
+  color: #FFF!important;
+}
+.purple{
+  background-color: #9585bf!important;
+  border-color: #9585bf;
+  color: #FFF!important;
+}
+.yellow{
+  background-color: #fee188!important;
+  border-color: #fee188;
+  color: #963!important;
+}
+.grey{
+  background-color: #a0a0a0!important;
+  border-color: #a0a0a0;
+}
+.light{
+  background-color: #e7e7e7!important;
+  border-color: #e7e7e7;
+  color: #888!important;
+}
+.white{
+  border-width: 1px;
+  border-color: #CCC;
+  color: #444!important;
+  text-shadow: none!important;
+  background-color: #FFF!important;
+}
+.link{
+  border: none!important;
+  background: transparent none!important;
+  color: #08c!important;
+  text-shadow: none!important;
+  padding: 4px 12px!important;
+  line-height: 20px!important;
+}
+
+.el-button-purple{
+  background-color: #9585bf!important;
+  color: #FFF!important;
+}
+.el-button-purple:hover{
+  background-color: #9389BF!important;
+  color: #FFF!important;
+}
+
+
+
+
