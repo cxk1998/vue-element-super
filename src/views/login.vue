@@ -1,13 +1,130 @@
 <template>
-  <div>1</div>
+  <div class="login">
+    <div class="login-header">运维一体化平台</div>
+    <div class="login-container">
+      <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="login-form">
+        <el-form-item prop="username">
+          <span class="login-icon">用户名</span>
+          <el-input type="text" v-model="loginForm.username" name="username" auto-complete="on"></el-input>
+        </el-form-item>
+        <el-form-item prop="password">
+          <span class="login-icon">密码</span>
+          <el-input type="password" v-model="loginForm.password" name="password" auto-complete="on"></el-input>
+        </el-form-item>
+        <!--<el-form-item prop="pwd">-->
+          <!--<el-checkbox style="margin-left: 300px;" v-model="checked">记住登录状态</el-checkbox>-->
+        <!--</el-form-item>-->
+        <el-form-item>
+          <el-button type="primary" @click="userLogin">登录</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        name: "login"
-    }
+  import request from "../utils/request"
+  import Cookies from 'js-cookie'
+  export default {
+    name: "login",
+    data(){
+      const validateUsername = (rule, value, callback) => {
+        if (value.length < 1) {
+          callback(new Error('Please enter the correct user name'))
+        } else {
+          callback()
+        }
+      };
+      const validatePassword = (rule, value, callback) => {
+        console.info(value)
+        if (value.length < 1) {
+          callback(new Error('The password can not be less than 6 digits'))
+        } else {
+          callback()
+        }
+      };
+      return {
+        loginForm: {
+          username: '',
+          password: ''
+        },
+        checked: true,
+        loginRules: {
+          username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+          password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        }
+      };
+    },
+    created() {
+      let lett = this;
+      document.onkeydown = function(e) {
+        let key = window.event.keyCode;
+        if (key === 13) {
+          lett.userLogin();
+        }
+      }
+    },
+    methods: {
+      userLogin(){
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
+            Cookies.set("userToken", 'Bearer '+ "zhangsan",{ expires: maxAge });
+            Cookies.set("userInfo", {"name":"zhangsan"},{ expires: 1 });
+            this.$router.push('/home');
+          } else {
+            console.log('error submit!!')
+            return false
+          }
+        })
+
+      },
+      async userLogin1(){
+        let result = await request.login('/apis/login', this.loginForm);
+        if(result && result.code === 1){
+          let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
+          Cookies.set("userToken", 'Bearer '+ result.data.token,{ expires: maxAge });
+          Cookies.set("userInfo", result.data.userInfo,{ expires: 1 });
+          this.$router.push('/home');
+        }
+      },
+    },
+  }
 </script>
 
-<style scoped>
+<style>
+  .login{
+    width: 100%;
+    height: 100%;
+    background-color: #2d3a4b;
+    overflow: hidden;
+  }
+  .login .login-header{
+    position: absolute;
+    top: 18%;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    font-size: 38px;
+    color: white;
+  }
+  .login .login-container{
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 500px;
+    margin-left: -250px;
+    background-color: #ffffff;
+  }
+  .login .login-container .login-form{
+    padding: 20px 30px;
+  }
+
+  .login .login-container .login-form .el-form-item .el-input__inner{
+    border-radius: 2px;
+  }
+  .login .login-container .login-form .el-form-item button{
+    width: 100%;
+  }
 
 </style>

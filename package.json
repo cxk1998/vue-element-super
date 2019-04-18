@@ -15,7 +15,9 @@
     "build:test": "cross-env NODE_ENV=production env_config=test node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "cross-env": "^5.2.0",
+    "element-ui": "^2.7.2",
     "js-cookie": "^2.2.0",
     "nprogress": "^0.2.0",
     "vue": "^2.5.2",
