@@ -1,18 +1,17 @@
 const Router = require('koa-router');
 const router = new Router();
-const api = require('../api');
+const article = require('../controllers/article');
 
-const formatDate = require('../middleware/formatDate'); //时间格式化函数
+const formatDate = require('../utils/formatDate'); //时间格式化函数
 const {PAGECOUNT} = require('../config/'); //常量表
-const checkToken = require('../middleware/checkToken'); //权限验证
-
+const createToken = require('../utils/createToken');
 router
 // 创建一篇文章
-.post('/create', async(ctx,next)=>{ 
+.post('/create', async(ctx,next)=>{
   let article = ctx.request.body;
   article.createTime = formatDate();
   await checkToken(ctx,next);
-  await api.createArticle(article)
+  await article.createArticle(article)
       .then(()=>{
           ctx.body = {
             code:200,
@@ -26,9 +25,9 @@ router
       });
 })
 // 获取文章列表(带分页获取,需要验证权限) checkToken,
-.post('/lists', async(ctx,next)=>{ 
+.post('/lists', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.getArticlesList(ctx.request.body.page)
+  await article.getArticlesList(ctx.request.body.page)
       .then((res)=>{
         let articleLists = res[0],
             total = res[1][0]['count(articleId)'];
@@ -45,8 +44,8 @@ router
       });
 })
 // 根据classify获取文章列表(前台使用没有权限)
-.post('/noAuthArtilcelists', async(ctx)=>{ 
-  await api.getArticlesByClassify(ctx.request.body.classify)
+.post('/noAuthArtilcelists', async(ctx)=>{
+  await article.getArticlesByClassify(ctx.request.body.classify)
       .then((articleLists)=>{
         ctx.body = {
           code:200,
@@ -60,9 +59,9 @@ router
       });
 })
 // 获取所有文章(每次返回10个)前台使用
-.post('/articleLists', async(ctx)=>{ 
+.post('/articleLists', async(ctx)=>{
   let page = ctx.request.body.page;
-  await api.getArticlesList(page)
+  await article.getArticlesList(page)
       .then((res)=>{
         let articleLists = res[0],
             total = res[1][0]['count(articleId)'],
@@ -83,9 +82,9 @@ router
       });
 })
 // 根据articleId获取其中一篇文章（有权限）//checkToken,
-.post('/onePage', async(ctx,next)=>{ 
+.post('/onePage', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.getOneArticle(ctx.request.body.articleId)
+  await article.getOneArticle(ctx.request.body.articleId)
       .then((res)=>{
         if(res){
           ctx.body = {
@@ -103,8 +102,8 @@ router
       });
 })
 // 根据articleId查看其中一篇文章（没有权限）
-.post('/noAuth', async(ctx)=>{ 
-  await api.lookOneArticle(ctx.request.body.articleId)
+.post('/noAuth', async(ctx)=>{
+  await article.lookOneArticle(ctx.request.body.articleId)
       .then((res)=>{
         if(res){
           ctx.body = {
@@ -122,9 +121,9 @@ router
       });
 })
 // 删除一篇文章 checkToken,
-.post('/remove', async(ctx,next)=>{ 
+.post('/remove', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.removeOneArticle(ctx.request.body.articleId)
+  await article.removeOneArticle(ctx.request.body.articleId)
       .then((res)=>{
           ctx.body = {
             code:200,
@@ -138,9 +137,9 @@ router
       });
 })
 // 编辑文章 checkToken,
-.post('/edit', async(ctx,next)=>{ 
+.post('/edit', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.updateArticle(ctx.request.body)
+  await article.updateArticle(ctx.request.body)
   .then(()=>{
       ctx.body = {
         code:200,
@@ -154,4 +153,4 @@ router
   });
 });
 
-module.exports = router
+module.exports = router;

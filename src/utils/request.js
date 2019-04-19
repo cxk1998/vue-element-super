@@ -46,7 +46,7 @@ service.interceptors.request.use(
     if (token) {
       config.headers.Authorization = token;
       return config;
-    } else if (config.url === "/apis/login") {
+    } else if (config.url === "/api/user/login") {
       return config;
     } else {
       ///取消请求
@@ -67,16 +67,16 @@ response拦截器
  */
 service.interceptors.response.use(
   response => {
-    let resdata=response.data;
-    return Promise.resolve(resdata);
+    let result=response.data;
+    return Promise.resolve(result);
   },
   error => {
     if(error.response){
-      let response=error.response
-      let status=response.status
+      let status=error.response.status;
+      let result=error.response.data;
       switch(status){
         case 400:
-          Message({type:'error',message:response.data.msg});
+          Message({type:'error',message:result.msg});
           break;
         case 401:
           Message({type:'error',message:"请先登录"});
@@ -89,20 +89,18 @@ service.interceptors.response.use(
           router.push('/error/404');
           break;
         case 405:
-          console.info(error);
           Message({type:'error',message:"服务器内部错误，请与管理员联系或稍后重试"});
           break;
         case 500:
-          console.info(error);
           Message({type:'error',message:"服务器内部错误，请与管理员联系或稍后重试"});
           break;
         default:
-          console.info(error);
           Message({type:'error',message:"服务器未知错误，请与管理员联系或稍后重试"});
       }
+      return Promise.reject(null);
     }else{
-      console.info(error);
       Message({type:'error',message:"未知错误，请与管理员联系或稍后重试"});
+      return Promise.reject(null);
     }
   });
 
@@ -110,7 +108,7 @@ service.interceptors.response.use(
 封装请求方式
  */
 const request = {
-  addTtoParams:function () {
+  addTtoParams:function (params) {
     if(!params){
       params={};
     }
@@ -118,25 +116,25 @@ const request = {
     return params;
   },
   get: function (url, params) {
-    return service.get(url, {params: addTtoParams(params)});
+    return service.get(url, {params: this.addTtoParams(params)});
   },
   post: function (url, params) {
-    return service.post(url, qs.stringify(addTtoParams(params)));
+    return service.post(url, qs.stringify(this.addTtoParams(params)));
   },
   login: function (url, params) {
-    return service.post(url, addTtoParams(params));
+    return service.post(url, this.addTtoParams(params));
   },
   delete: function (url, params) {
-    return service.delete(url, {params: addTtoParams(params)});
+    return service.delete(url, {params: this.addTtoParams(params)});
   },
   put: function (url, params) {
-    return axios.put(url, qs.stringify(addTtoParams(params)));
+    return axios.put(url, qs.stringify(this.addTtoParams(params)));
   },
   uploadFilePost: function (url, params) {
     let config = {
       headers: {'Content-Type': 'multipart/form-data'}
     };
-    return axios.post(url, addTtoParams(params), config);
+    return axios.post(url, this.addTtoParams(params), config);
   },
 }
 export default request

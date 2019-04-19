@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const router = new Router();
-const api = require('../api');
+const classify = require('../controllers/classify');
 
-const formatDate = require('../middleware/formatDate');
-const checkToken = require('../middleware/checkToken');
+const formatDate = require('../utils/formatDate');
+const createToken = require('../utils/createToken');
 
 router
 // 创建分类 checkToken,
@@ -13,7 +13,7 @@ router
     createTime:formatDate()
   };
   await checkToken(ctx,next);
-  await api.createClass(classify)
+  await classify.createClass(classify)
       .then(()=>{
           ctx.body = {
             code:200,
@@ -29,7 +29,7 @@ router
 // 删除分类 checkToken,
 .post('/remove', async(ctx)=>{
     await checkToken(ctx,next);
-    await api.removeClass(ctx.request.body.classId)
+    await classify.removeClass(ctx.request.body.classId)
       .then(()=>{
           ctx.body = {
             code:200,
@@ -45,7 +45,7 @@ router
 // 编辑分类 checkToken,
 .post('/edit', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.updateClass(ctx.request.body)
+  await classify.updateClass(ctx.request.body)
   .then(()=>{
     ctx.body = {
       code:200,
@@ -61,7 +61,7 @@ router
 // 获取所有分类 checkToken,
 .get('/lists', async(ctx,next)=>{
   await checkToken(ctx,next);
-  await api.findAllClass()
+  await classify.findAllClass()
   .then((lists)=>{
     ctx.body = {
       code:200,
@@ -77,7 +77,7 @@ router
 // 无权限获取分类给前台使用
 .get('/noAuth', async(ctx)=>{
   await checkToken(ctx,next);
-  await api.findAllClass()
+  await classify.findAllClass()
   .then((lists)=>{
     ctx.body = {
       code:200,

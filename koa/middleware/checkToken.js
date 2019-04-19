@@ -11,7 +11,6 @@ module.exports = function (ctx,next) {
         code: 401,
         message: "授权已经过期，请重新登陆"
       };
-      return;
     }else{
       next();
     }

@@ -17,8 +17,8 @@ app.use(cors({
     allowMethods: ['GET', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
 }));
-
 routes(app);
 
 //端口监听
 app.listen(3009);
+console.info("start success")
