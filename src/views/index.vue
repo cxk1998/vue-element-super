@@ -7,8 +7,6 @@
           <el-menu
             default-active="2"
             class="el-menu-vertical-demo"
-            @open="handleOpen"
-            @close="handleClose"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b">
@@ -47,8 +45,27 @@
 </template>
 
 <script>
+  import request from "../utils/request"
   export default {
-    name: "index"
+    name: "index",
+    data() {
+      return {
+        userMenu: null,
+      }
+    },
+    mounted: function () {
+      this.getUserMenu()
+    },
+    methods: {
+      async getUserMenu () {
+        await request.login('/api/menu/getUserMenu').then(data => {
+          this.userMenu = data;
+          console.info(data)
+        }).catch(error => {
+
+        });
+      },
+    }
   }
 </script>
 

@@ -79,7 +79,7 @@ service.interceptors.response.use(
           Message({type:'error',message:result.msg});
           break;
         case 401:
-          Message({type:'error',message:"请先登录"});
+          Message({type:'error',message:result.msg});
           router.replace({path: '/login', query: {redirect: router.currentRoute.fullPath}});
           break;
         case 403:
