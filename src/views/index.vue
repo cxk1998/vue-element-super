@@ -58,7 +58,7 @@
     },
     methods: {
       async getUserMenu () {
-        await request.login('/api/menu/getUserMenu').then(data => {
+        await request.login('/apis/menu/getUserMenu').then(data => {
           this.userMenu = data;
           console.info(data)
         }).catch(error => {

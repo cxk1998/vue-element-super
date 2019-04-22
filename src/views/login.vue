@@ -67,7 +67,7 @@
       userLogin(){
         this.$refs.loginForm.validate(async valid => {
           if (valid) {
-            await request.login('/api/user/login', this.loginForm).then(data => {
+            await request.login('/apis/user/login', this.loginForm).then(data => {
               let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
               Cookies.set("userToken", 'Bearer '+ data.token,{ expires: maxAge });
               Cookies.set("userInfo", data.user,{ expires: 1 });

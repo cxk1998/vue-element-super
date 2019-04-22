@@ -9,24 +9,22 @@ let sha1 = require('sha1'); //加密
 const Sequelize = require('sequelize')
 router
   .post('/getUserMenu',async(ctx,next)=> {
-    await User.findOne({
-      attributes: ['username',Sequelize.col('roles.name')],
+    await Menu.findAll({
+      attributes: ['id',['name','menuname'],'url','descript',[Sequelize.col('roles.id'),'role_id'],[Sequelize.col('roles.name'),'rolename'],[Sequelize.col('roles->users.username'),'username'],[Sequelize.col('roles->users.id'),'user_id']],
       include: [{
         model: Role,
-        through: {
-          attributes: [],
-        },
+        attributes: [],
         include:[{
-          model: Menu
-        }]
+          model: User,
+          attributes: [],
+          where: {username: ctx.state.username},
+        }],
       }],
-      where: {username: ctx.state.username},
-    }).then(user => {
-      console.info(JSON.stringify(user))
-      if (user) {
+    }).then(menus => {
+      if (menus) {
         // 用户名存在通过验证
         ctx.response.status = 200;
-        ctx.response.body = {user: user,msg: '请求成功'};
+        ctx.response.body = {menus: menus,msg: '请求成功'};
       } else {
         // 用户名或者密码错误没有通过验证，要么重新输入，要么点击注册
         ctx.response.status = 400;

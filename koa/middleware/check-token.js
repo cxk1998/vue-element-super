@@ -1,13 +1,11 @@
 // 验证token中间件
 const jwt = require('jsonwebtoken');
-function validateTiken( ctx ) {
 
-}
 module.exports = function (){
   return function * ( next ) {
     // 执行中间件的操作
     let ctx = this;
-    if (ctx.url !== '/api/user/login' && ctx.request.headers['authorization']) {
+    if (ctx.url !== '/apis/user/login' && ctx.request.headers['authorization']) {
       let auth_attr = ctx.request.headers['authorization'].split(' ');
       if(auth_attr[0] !=='Bearer' || auth_attr.length !== 2) {
         ctx.response.body = {

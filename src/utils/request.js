@@ -46,7 +46,7 @@ service.interceptors.request.use(
     if (token) {
       config.headers.Authorization = token;
       return config;
-    } else if (config.url === "/api/user/login") {
+    } else if (config.url === "/apis/user/login") {
       return config;
     } else {
       ///取消请求

@@ -2,21 +2,21 @@
 
 const mysql = require('mysql');
 const Sequelize = require('sequelize');
-const config = require('../config/mysql-config');
+const {MYSQL_CONFIG} = require('../config');
 
 const POOL = mysql.createPool({
-  host: config.host,
-  port: config.port,
-  user: config.user,
-  password: config.password,
-  database: config.database,
+  host: MYSQL_CONFIG.host,
+  port: MYSQL_CONFIG.port,
+  user: MYSQL_CONFIG.user,
+  password: MYSQL_CONFIG.password,
+  database: MYSQL_CONFIG.database,
 });
 // 根据配置实例化seq
-const sequelize = new Sequelize(config.database, config.user, config.password, {
-  host: config.host,
-  port: config.port,
-  dialect: config.dialect,
-  pool: config.pool,
+const sequelize = new Sequelize(MYSQL_CONFIG.database, MYSQL_CONFIG.user, MYSQL_CONFIG.password, {
+  host: MYSQL_CONFIG.host,
+  port: MYSQL_CONFIG.port,
+  dialect: MYSQL_CONFIG.dialect,
+  pool: MYSQL_CONFIG.pool,
   define: {
     // 不要添加时间戳属性 (updatedAt, createdAt)
     timestamps: false,
