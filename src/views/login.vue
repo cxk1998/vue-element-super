@@ -3,9 +3,9 @@
     <div class="login-header">运维一体化平台</div>
     <div class="login-container">
       <el-form :model="loginForm" :rules="loginRules" ref="loginForm" class="login-form">
-        <el-form-item prop="username">
+        <el-form-item prop="user_name">
           <span class="login-icon">用户名</span>
-          <el-input type="text" v-model="loginForm.username" name="username" auto-complete="on"></el-input>
+          <el-input type="text" v-model="loginForm.user_name" name="user_name" auto-complete="on"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <span class="login-icon">密码</span>
@@ -23,12 +23,12 @@
 </template>
 
 <script>
-  import request from "../utils/request"
+  import request from "@/utils/request"
   import Cookies from 'js-cookie'
   export default {
     name: "login",
     data(){
-      const validateUsername = (rule, value, callback) => {
+      const validateUserName = (rule, value, callback) => {
         if (value.length < 1) {
           callback(new Error('Please enter the correct user name'))
         } else {
@@ -44,12 +44,12 @@
       };
       return {
         loginForm: {
-          username: 'admin',
+          user_name: 'admin',
           password: '123456'
         },
         checked: true,
         loginRules: {
-          username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+          user_name: [{ required: true, trigger: 'blur', validator: validateUserName }],
           password: [{ required: true, trigger: 'blur', validator: validatePassword }]
         }
       };
@@ -67,10 +67,10 @@
       userLogin(){
         this.$refs.loginForm.validate(async valid => {
           if (valid) {
-            await request.login('/apis/user/login', this.loginForm).then(data => {
+            await request.login('/apis/sysmgr/user/login', this.loginForm).then(data => {
               let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
-              Cookies.set("userToken", 'Bearer '+ data.token,{ expires: maxAge });
-              Cookies.set("userInfo", data.user,{ expires: 1 });
+              Cookies.set("token", 'Bearer '+ data.token,{ expires: maxAge });
+              Cookies.set("user", data.user,{ expires: 1 });
               this.$router.push('/home');
             }).catch(error => {
 

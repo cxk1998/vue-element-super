@@ -17,10 +17,13 @@
   "dependencies": {
     "axios": "^0.18.0",
     "cross-env": "^5.2.0",
+    "echarts": "^4.2.1",
     "element-ui": "^2.7.2",
+    "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.0",
     "nprogress": "^0.2.0",
     "vue": "^2.5.2",
+    "vue-contextmenu": "^1.5.9",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {

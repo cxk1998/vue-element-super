@@ -42,11 +42,11 @@ service.interceptors.request.use(
       return;
     }
     // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
-    let token = Cookies.get("userToken");
+    let token = Cookies.get("token");
     if (token) {
       config.headers.Authorization = token;
       return config;
-    } else if (config.url === "/apis/user/login") {
+    } else if (config.url === "/apis/sysmgr/user/login") {
       return config;
     } else {
       ///取消请求

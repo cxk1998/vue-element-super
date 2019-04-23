@@ -13,11 +13,11 @@ NProgress.configure({ easing: 'ease', speed: 500, showSpinner: false })
 router.beforeEach((to, from, next) => {
   // 开启进度条
   NProgress.start();
-  let userToken=Cookies.get("userToken");
+  let token=Cookies.get("token");
   if(to.path==="/login"){
     next();
   }else if(to.matched.length>0){
-    if(userToken===undefined || userToken===null || userToken===""){
+    if(token===undefined || token===null || token===""){
       next({path: '/login', query: {redirect: to.fullPath}});// 将跳转的路由path作为参数，登录成功后跳转到该路由
     }else{
       if(Object.keys(from.query).length === 0){//判断路由来源是否有query，处理不是目的跳转的情况

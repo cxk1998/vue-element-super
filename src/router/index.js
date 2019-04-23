@@ -24,6 +24,17 @@ const router = new Router({
         {path: '', component: () => import('@/views/home'),}
       ]
     },
+    {path: '/sysmgr', component: Layout,
+      children: [
+        {path: 'user', component: () => import('@/views/sysmgr/user'),},
+        {path: 'role', component: () => import('@/views/sysmgr/role'),}
+      ]
+    },
+    {path: '/monitor', component: Layout,
+      children: [
+        {path: 'login-log', component: () => import('@/views/monitor/login-log'),},
+      ]
+    },
     {path: '*', redirect: '/error/404'},
   ]
 })
