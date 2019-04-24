@@ -1,37 +1,17 @@
 <template>
   <div class="home">
     <el-row>
-      <el-col :span="8">
-        <el-card :body-style="{ padding: '0px' }">
-          <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-          <div style="padding: 14px;">
-            <span>好吃的汉堡</span>
-            <div class="bottom clearfix">
-              <el-button type="text" class="button">操作按钮</el-button>
-            </div>
-          </div>
-        </el-card>
+      <el-col :span="6">
+        <CardUser></CardUser>
       </el-col>
-      <el-col :span="8">
-        <el-card :body-style="{ padding: '0px' }">
-        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-        <div style="padding: 14px;">
-          <span>好吃的汉堡</span>
-          <div class="bottom clearfix">
-            <el-button type="text" class="button">操作按钮</el-button>
-          </div>
-        </div>
-      </el-card></el-col>
-      <el-col :span="8">
-        <el-card :body-style="{ padding: '0px' }">
-        <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-        <div style="padding: 14px;">
-          <span>好吃的汉堡</span>
-          <div class="bottom clearfix">
-            <el-button type="text" class="button">操作按钮</el-button>
-          </div>
-        </div>
-      </el-card>
+      <el-col :span="6">
+        <CardNews></CardNews>
+      </el-col>
+      <el-col :span="6">
+        <CardMoney></CardMoney>
+      </el-col>
+      <el-col :span="6">
+        <CardCart></CardCart>
       </el-col>
     </el-row>
     <el-row>
@@ -49,10 +29,13 @@
 <script>
 
   import LineChart from './components/LineChart'
-
+  import CardUser from './components/CardUser'
+  import CardCart from './components/CardCart'
+  import CardNews from './components/CardNews'
+  import CardMoney from './components/CardMoney'
   export default {
     name: "home",
-    components: { LineChart },
+    components: { LineChart,CardUser,CardCart,CardNews,CardMoney },
     data(){
       return {
 

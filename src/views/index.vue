@@ -154,7 +154,11 @@
         });
       },
       async loginOut() {
-        let result = await axiosBeg.get('/apis/logout',{});
+        await request.post('/apis/sysmgr/user/logout',{}).then(data => {
+
+        }).catch(error =>{
+
+        });
         Cookies.remove("user");
         Cookies.remove("token");
         this.$router.push('/login');
