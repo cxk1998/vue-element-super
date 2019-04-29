@@ -30,9 +30,8 @@
                 </div>
               </div>
               <div slot="reference" style="padding-right: 15px;height: 50px;">
-                <el-badge :value="100" :max="getUserMessage.length" style="height: 40px;padding-top: 6px;">
-                  <i class="atsFont" style="font-size: 24px;margin-top: 20px;">&#xe639;</i>
-                </el-badge>
+                <i class="atsFont" style="font-size: 26px;margin-top: 20px;">&#xe639;</i>
+                <sup class="index-sup">{{ getUserMessage.length }}</sup>
               </div>
             </el-popover>
           </li>
@@ -192,7 +191,22 @@
     height: 50px;
     line-height: 50px;
   }
-
+  .index .el-header .index-sup{
+    background-color: #f56c6c;
+    position: relative;
+    top: -10px;
+    left: -8px;
+    border-radius: 8px;
+    color: #fff;
+    display: inline-block;
+    font-size: 12px;
+    height: 15px;
+    line-height: 15px;
+    padding: 0 6px;
+    text-align: center;
+    white-space: nowrap;
+    border: 1px solid #fff;
+  }
   .index .el-header .monitor-menu{
     float: left;
     margin-left: 20px;
@@ -226,7 +240,7 @@
 
   .index .el-header .index-header-list ul li {
     margin: 0;
-    padding: 0 20px;
+    padding: 0 15px;
     text-align: center;
     color: white;
     float: left;
@@ -252,7 +266,7 @@
     margin: 0;
     padding: 0;
   }
-  .el-badge__content.is-fixed{
+  .el-badge__content .el-badge__content--undefined .is-fixed{
     top:12px;
   }
   .el-badge__content{
