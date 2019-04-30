@@ -69,8 +69,7 @@
     },
     methods:{
       initChart() {
-        let myChart = echarts.init(document.getElementById('lineChart'))
-        console.info(myChart)
+        let myChart = echarts.init(document.getElementById('lineChart'));
         myChart.setOption(this.option);
       }
     }
