@@ -28,6 +28,9 @@ const router = new Router({
           {path: "/sysmgr/role", component: Views.Role},
           // monitor
           {path: "/monitor/login-log", component: Views.LoginLog},
+          // error
+          {path: "/error/403", component: Views.Error403},
+          {path: "/error/404", component: Views.Error404},
         ]
     },
   ]

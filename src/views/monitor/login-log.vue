@@ -3,7 +3,7 @@
     <div class="search-bar">
       <el-form :model="queryData" ref="searchForm" :inline="true">
         <el-form-item label="账号">
-          <el-input v-model="queryData.real_name" placeholder="请输入账号"></el-input>
+          <el-input v-model="queryData.user_name" placeholder="请输入账号"></el-input>
         </el-form-item>
         <el-form-item label="日期">
           <el-date-picker
@@ -16,14 +16,14 @@
             :picker-options="pickerOptions">
           </el-date-picker>
         </el-form-item>
-        <el-button type="primary" icon="el-icon-search" @click="getPageList">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" @click="pageCurrentChange(1)">搜索</el-button>
       </el-form>
     </div>
     <el-card class="table-card">
       <div slot="header" class="header">
         <span>登录日志</span>
         <ul>
-          <li @click="getPageList">
+          <li @click="pageCurrentChange(1)">
             <i class="el-icon-refresh"></i> 刷新
           </li>
         </ul>
@@ -89,7 +89,8 @@
 </template>
 <script>
   import request from "@/utils/request"
-  import common from "@/utils/common"
+  import "@/utils/date"
+
   export default {
     name: "loginlog",
     data: function () {
@@ -124,7 +125,7 @@
         },
         queryData: {
           current_page: 1,
-          page_size: 20,
+          page_size: 10,
           user_name: "",
           start_date: "",
           end_date: "",
@@ -143,8 +144,9 @@
           this.logLoginTableData = data.data;
         }).catch(error => {
           this.logLoginTableData = [];
+        }).finally(() => {
+          this.loadingTable = false;
         });
-        this.loadingTable = false;
       },
       //分页
       pageSizeChange(val) {

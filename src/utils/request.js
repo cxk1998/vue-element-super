@@ -97,7 +97,7 @@ service.interceptors.response.use(
         default:
           Message({type:'error',message:"服务器未知错误，请与管理员联系或稍后重试"});
       }
-      return Promise.reject(null);
+      return Promise.reject(error.response);
     }else{
       Message({type:'error',message:"未知错误，请与管理员联系或稍后重试"});
       return Promise.reject(null);

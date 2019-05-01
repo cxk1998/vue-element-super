@@ -29,7 +29,7 @@
                   <div style="color: #00C1DE;font-size: 10px;">暂无消息</div>
                 </div>
               </div>
-              <div slot="reference" style="padding-right: 15px;height: 50px;">
+              <div slot="reference" style="height: 50px;">
                 <i class="atsFont" style="font-size: 26px;margin-top: 20px;">&#xe639;</i>
                 <sup class="index-sup">{{ getUserMessage.length }}</sup>
               </div>
@@ -70,6 +70,7 @@
                    class="el-menu-vertical-demo"
                    text-color="rgb(191, 203, 217)"
                    active-text-color="rgb(64, 158, 255)"
+                   :default-active="this.$store.getters.currentMenu.active"
                    :collapse="isCollapse">
             <template v-for="item in userMenuData">
               <el-submenu v-if="item.children.length !== 0" :index="item.url" :key="item.id">
@@ -120,6 +121,12 @@
         ],
       }
     },
+    watch: {
+      $route (to, from) {
+        // 执行ajax请求，但只希望在进入时请求，离开时不希望进行请求。
+        this.$store.commit('currentMenu', to.path);
+      }
+    },
     mounted: function () {
       this.getUserMenu()
       this.loginUser = Cookies.getJSON("user");
@@ -129,16 +136,18 @@
         await request.get('/apis/sysmgr/menu/getUserMenu').then(data => {
           this.userMenuData = getTree(data.menus, {id: 'id', pid: 'pid', rootPid: 0});
           this.userMenuData.unshift({
-            "id": 100000,
+            "id": 0,
             "name": "首页",
             "pid": 0,
             "url": "/home",
             "icon": "fa fa-home",
             "children": []
           });
+          this.$store.commit('userMenuPermissions', this.userMenuData);
+          this.$store.commit('currentMenu', this.$router.currentRoute.path);
         }).catch(error => {
 
-        });
+        });;
       },
       //退出登录
       exitLogin: function () {
@@ -157,18 +166,15 @@
 
         }).catch(error =>{
 
+        }).finally(() => {
+          Cookies.remove("user");
+          Cookies.remove("token");
+          this.$router.push('/login');
         });
-        Cookies.remove("user");
-        Cookies.remove("token");
-        this.$router.push('/login');
       },
       //监听菜单缩放
       monitorMenu: function () {
-        if(this.isCollapse === false) {
-          this.isCollapse = true;
-        } else {
-          this.isCollapse = false;
-        }
+        return !this.isCollapse
       },
       gotoHome:function () {
         this.$router.push('/home');
@@ -312,6 +318,12 @@
     text-align: left;
     overflow-x: hidden;
     box-sizing: border-box;
+    background-color: #1f2d3d !important;
+  }
+  .el-menu li{
+    background: rgb(38, 52, 69) !important;
+  }
+  .el-menu li:hover{
     background-color: #1f2d3d !important;
   }
   .index .el-menu--collapse{
