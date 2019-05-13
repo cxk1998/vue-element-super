@@ -28,11 +28,11 @@
 
 <script>
 
-  import LineChart from './components/LineChart'
-  import CardUser from './components/CardUser'
-  import CardCart from './components/CardCart'
-  import CardNews from './components/CardNews'
-  import CardMoney from './components/CardMoney'
+  import LineChart from './components/line-chart'
+  import CardUser from './components/card-user'
+  import CardCart from './components/card-cart'
+  import CardNews from './components/card-news'
+  import CardMoney from './components/card-money'
   export default {
     name: "home",
     components: { LineChart,CardUser,CardCart,CardNews,CardMoney },

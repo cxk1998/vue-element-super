@@ -1,5 +1,5 @@
 <template>
-  <div class="loginlog">
+  <div class="login-log">
     <div class="search-bar">
       <el-form :model="queryData" ref="searchForm" :inline="true">
         <el-form-item label="账号">
@@ -162,7 +162,7 @@
 </script>
 
 <style>
-  .loginlog {
+  .login-log {
     width: 100%;
     height: 100%;
     padding: 5px 10px;
