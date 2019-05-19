@@ -4,22 +4,20 @@
 
 import axios from 'axios'
 import router from '@/router'
-import qs from 'qs'
 import {Message} from 'element-ui'
 import Cookies from 'js-cookie'
 
 let requestList = [];
 const saveTime = 1000;
 /**
-请求超时时间
+ 请求超时时间
  */
 const service = axios.create({
-  baseURL: process.env.API_ROOT, // node环境的不同，对应不同的baseURL
   timeout: 30*1000,
 });
 
 /**
-request拦截器
+ request拦截器
  */
 service.interceptors.request.use(
   config => {
@@ -42,20 +40,13 @@ service.interceptors.request.use(
       return;
     }
     // 每次发送请求之前判断是否存在token，如果存在，则统一在http请求的header都加上token，不用每次请求都手动添加了
-    let token = Cookies.get("token");
-    if (token) {
-      config.headers.Authorization = token;
-      return config;
-    } else if (config.url === "/apis/sysmgr/user/login") {
+    let login_token = Cookies.get("login_token");
+    if (login_token) {
+      config.headers.Authorization = login_token;
       return config;
     } else {
-      ///取消请求
-      cancel();
-      ///跳转到登录页面
-      router.replace({
-        path: '/login',
-        query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
-      });
+      Cookies.set("return_url",process.env.FRONT_ROOT+router.currentRoute.fullPath,{ domain: process.env.COOKIE_DOMAIN });
+      window.location.href = process.env.LOGIN_ROOT;
     }
   },
   error => {
@@ -63,7 +54,7 @@ service.interceptors.request.use(
   }
 );
 /**
-response拦截器
+ response拦截器
  */
 service.interceptors.response.use(
   response => {
@@ -104,37 +95,113 @@ service.interceptors.response.use(
     }
   });
 
-/**
-封装请求方式
+/***
+ * axios封装，支持多个api扩展
  */
-const request = {
-  addTtoParams:function (params) {
-    if(!params){
+class Request{
+
+  constructor(){
+
+  }
+
+  /***
+   * 在url后面加上时间参数，防止url缓存
+   * @param params
+   * @returns {*}
+   * @private
+   */
+  _addTtoParams (params) {
+    if(params === null || params ===undefined){
       params={};
+    }
+    if(typeof({}) !== 'object'){
+      throw 'Params mast be object';
     }
     params.t=(new Date()).getTime()
     return params;
-  },
-  get: function (url, params) {
-    return service.get(url, {params: this.addTtoParams(params)});
-  },
-  post: function (url, params) {
-    return service.post(url, qs.stringify(this.addTtoParams(params)));
-  },
-  login: function (url, params) {
-    return service.post(url, this.addTtoParams(params));
-  },
-  delete: function (url, params) {
-    return service.delete(url, {params: this.addTtoParams(params)});
-  },
-  put: function (url, params) {
-    return axios.put(url, qs.stringify(this.addTtoParams(params)));
-  },
-  uploadFilePost: function (url, params) {
-    let config = {
-      headers: {'Content-Type': 'multipart/form-data'}
-    };
-    return axios.post(url, this.addTtoParams(params), config);
-  },
+  }
+
+  /***
+   * axios config
+   */
+  _getConfig(){
+    let config = {};
+    config.baseURL = process.env.API_ROOT;
+    return config;
+  }
+
+  /***
+   * get 请求开启缓存
+   * @param url
+   * @param params
+   */
+  getForCache(url, params){
+    let config = this._getConfig;
+    config["params"] = params;
+    return service.get(url, config);
+  }
+
+  /***
+   * 普通get请求，不缓存
+   * @param url
+   * @param params
+   */
+  get(url, params) {
+    let config = this._getConfig;
+    config["params"] = this._addTtoParams(params);
+    return service.get(url, config);
+  }
+  /**
+   * 如果提交带文件，则需要配置
+   * config.headers["Content-Type"] = 'multipart/form-data';
+   * @param url
+   * @param params
+   * @returns {AxiosPromise<any>}
+   */
+  post(url, params) {
+    let config = this._getConfig;
+    let data = this._addTtoParams(params);
+    return service.post(url, data, config);
+  }
+
+  /***
+   * 修改请求
+   * @param url
+   * @param params
+   * @returns {AxiosPromise<any>}
+   */
+  put(url, params) {
+    let config = this._getConfig;
+    let data = this._addTtoParams(params);
+    return axios.put(url,data, config);
+  }
+
+  /***
+   * 删除方法
+   * @param url
+   * @param params
+   * @returns {AxiosPromise}
+   */
+  delete(url, params) {
+    let config = this._getConfig;
+    config["params"] = this._addTtoParams(params);
+    return service.delete(url, config);
+  }
 }
-export default request
+
+class DnsRequest extends Request{
+  constructor() {
+    super()
+  }
+}
+
+/***
+ * 生成request实例
+ */
+const request = new Request();
+const dnsRequest = new DnsRequest();
+
+export {
+  request,
+  dnsRequest,
+}
