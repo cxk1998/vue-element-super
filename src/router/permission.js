@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
       }
     }
   }else{
-    next({path: '/error/404'})
+    next({path: '/404'})
   }
 });
 

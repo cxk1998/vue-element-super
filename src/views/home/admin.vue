@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="admin">
     <el-row>
       <el-col :span="6">
         <CardUser></CardUser>
@@ -34,7 +34,7 @@
   import CardNews from './components/card-news'
   import CardMoney from './components/card-money'
   export default {
-    name: "home",
+    name: "admin",
     components: { LineChart,CardUser,CardCart,CardNews,CardMoney },
     data(){
       return {
@@ -52,7 +52,7 @@
 </script>
 
 <style>
-  .home{
+  .admin{
     width: 100%;
     height: 100%;
     background-color: #f0f2f5;

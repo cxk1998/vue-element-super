@@ -23,7 +23,7 @@
 </template>
 
 <script>
-  import request from "@/utils/request"
+  import {login} from "../apis/user"
   import Cookies from 'js-cookie'
   export default {
     name: "login",
@@ -67,14 +67,17 @@
       userLogin(){
         this.$refs.loginForm.validate(async valid => {
           if (valid) {
-            await request.login('/apis/sysmgr/user/login', this.loginForm).then(data => {
-              let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
-              Cookies.set("token", 'Bearer '+ data.token,{ expires: maxAge });
-              Cookies.set("user", data.user,{ expires: 1 });
-              this.$router.push('/home');
-            }).catch(error => {
-
-            });
+            let data = await login(this.loginForm);
+            let maxAge = new Date(new Date().getTime() + 4 * 60 * 60 * 1000);
+            Cookies.set("token", 'Bearer '+ data.token,{ expires: maxAge });
+            Cookies.set("user", data.user,{ expires: 1 });
+            if(this.loginForm.user_name === 'admin'){
+              this.$router.push({path:'/home/admin'});
+            }else if(this.loginForm.user_name === 'guest'){
+              this.$router.push('/home/guest');
+            }else{
+              this.$router.push('/403');
+            }
           } else {
             console.log('error submit!!')
             return false

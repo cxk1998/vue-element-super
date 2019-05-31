@@ -49,7 +49,7 @@
 </template>
 
 <script>
-  import request from "@/utils/request"
+  import {request} from "@/utils/request"
   import {copy,deerCopy} from "@/utils/common"
   export default {
     name: "role",

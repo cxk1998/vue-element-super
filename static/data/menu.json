@@ -1,0 +1,6 @@
+[
+  {"id": 1, "name": "系统管理", "pid": 0, "url": "/sysmgr", "icon": "fa fa-home", "children": []},
+  {"id": 2, "name": "用户管理", "pid": 1, "url": "/sysmgr/user", "icon": "fa fa-home", "children": []},
+  {"id": 3, "name": "角色管理", "pid": 1, "url": "/sysmgr/role", "icon": "fa fa-home", "children": []},
+  {"id": 4, "name": "测试数据", "pid": 1, "url": "/sysmgr/test", "icon": "fa fa-home", "children": []}
+]

@@ -98,7 +98,7 @@
 </template>
 
 <script>
-  import request from '../../utils/request'
+  import {getMenu} from '@/apis/menu'
   import {getTree} from "../../utils/menu"
   import Cookies from 'js-cookie'
 
@@ -128,26 +128,20 @@
       }
     },
     mounted: function () {
-      this.getUserMenu()
       this.loginUser = Cookies.getJSON("user");
+      this.getUserMenu();
     },
     methods: {
       async getUserMenu () {
-        await request.get('/apis/sysmgr/menu/getUserMenu').then(data => {
-          this.userMenuData = getTree(data.menus, {id: 'id', pid: 'pid', rootPid: 0});
-          this.userMenuData.unshift({
-            "id": 0,
-            "name": "首页",
-            "pid": 0,
-            "url": "/home",
-            "icon": "fa fa-home",
-            "children": []
-          });
-          this.$store.commit('userMenuPermissions', this.userMenuData);
-          this.$store.commit('currentMenu', this.$router.currentRoute.path);
-        }).catch(error => {
-
-        });;
+        let menudata = await getMenu();
+        this.userMenuData = getTree(menudata, {id: "id", pid: "pid", rootPid: 0});
+        if(this.loginUser.user_name === "admin"){
+          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/admin", "icon": "fa fa-home", "children": []});
+        }else{
+          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/guest", "icon": "fa fa-home", "children": []});
+        }
+        this.$store.commit('userMenuPermissions', this.userMenuData);
+        this.$store.commit('currentMenu', this.$router.currentRoute.path);
       },
       //退出登录
       exitLogin: function () {

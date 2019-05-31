@@ -22,15 +22,13 @@ const router = new Router({
       children:
         [
           // home
-          {path: '/home', component: Views.Home},
+          {path: '/home/admin', component: Views.Admin},
           // sysmgr
           {path: "/sysmgr/user", component: Views.User},
           {path: "/sysmgr/role", component: Views.Role},
+          {path: "/sysmgr/test", component: Views.Test},
           // monitor
           {path: "/monitor/login-log", component: Views.LoginLog},
-          // error
-          {path: "/error/403", component: Views.Error403},
-          {path: "/error/404", component: Views.Error404},
         ]
     },
   ]

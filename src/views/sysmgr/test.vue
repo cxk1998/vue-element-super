@@ -12,6 +12,9 @@
       <div slot="header" class="header">
         <span>用户管理</span>
         <ul>
+          <li @click="showAddUser">
+            <i class="el-icon-plus"></i> 添加
+          </li>
           <li @click="pageCurrentChange(1)">
             <i class="el-icon-refresh"></i> 刷新
           </li>
@@ -59,6 +62,12 @@
             width="auto"
             min-width="120">
           </el-table-column>
+          <el-table-column label="操作" width="160">
+            <template slot-scope="scope">
+              <el-button @click="showEditUser(scope.row)" type="primary" icon="el-icon-edit-outline" size="small">编辑</el-button>
+              <el-button @click="delUser(scope.row)" type="danger" icon="el-icon-delete" size="small">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-pagination
           background
@@ -92,10 +101,10 @@
   </div>
 </template>
 <script>
-  import {getPageUser} from "../../apis/user"
+  import {getPageTest} from "../../apis/test"
 
   export default {
-    name: "user",
+    name: "test",
     data: function () {
       return {
         loadingTable: true,
@@ -122,22 +131,81 @@
       }
     },
     mounted: function () {
-      this.getPageUser();
+      this.getPageTest();
     },
     methods: {
-      async getPageUser() {
+      async getPageTest() {
         this.loadingTable = true;
-        this.logLoginTableData = await getPageUser(this.queryData);
+        this.logLoginTableData = await getPageTest(this.queryData);
         this.loadingTable = false;
+      },
+      //添加
+      showAddUser: function () {
+        this.formFields = Object.assign(this.formFieldsAdd,{});
+        this.dialogFormTitle = "添加用户";
+        this.dialogFormUrl = '/apis/sysmgr/user/add';
+        this.dialogFormVisible = true
+      },
+      //编辑
+      showEditUser: function (row) {
+        this.formFields = row;
+        if (this.formFields.id == null) {
+          return this.$message.error("请选择要编辑的用户！")
+        } else {
+          this.dialogFormTitle = "编辑用户";
+          this.dialogFormUrl = '/apis/sysmgr/user/update';
+          this.dialogFormVisible = true;
+          this.isEdit = true;
+        }
+      },
+      //编辑提交
+      addOrEditSubmit(formName) {
+        this.$refs[formName].validate(async (valid) => {
+          if (valid) {
+            await request.post(this.dialogFormUrl, this.formFields).then(data => {
+              this.pageCurrentChange(1);
+              this.dialogFormVisible = false;
+              this.$message.success("操作成功！")
+            }).catch(error => {
+
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      //删除
+      delUser: function (row) {
+        this.formFields = row;
+        if (this.formFields == null) {
+          return this.$message.error("请选择要删除的用户！")
+        } else {
+          this.$confirm('确认删除该数据?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          }).then(async () => {
+            console.info(this.formFields)
+            await request.delete('/apis/sysmgr/user/delete', {id: this.formFields.id}).then(data => {
+              this.pageCurrentChange(1);
+              this.$message.success("操作成功！")
+            }).catch(error => {
+
+            });
+          }).catch(() => {
+
+          });
+        }
       },
       //分页
       pageSizeChange(val) {
         this.queryData.page_size = val;
-        this.getPageUser();
+        this.getPageTest();
       },
       pageCurrentChange(val) {
         this.queryData.current_page = val;
-        this.getPageUser();
+        this.getPageTest();
       },
     },
   }

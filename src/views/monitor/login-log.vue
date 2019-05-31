@@ -88,7 +88,7 @@
   </div>
 </template>
 <script>
-  import request from "@/utils/request"
+  import {request} from "@/utils/request"
   import "@/utils/date"
 
   export default {

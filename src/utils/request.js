@@ -110,7 +110,7 @@ class Request{
    * @returns {*}
    * @private
    */
-  static addTtoParams (params) {
+  _addTtoParams (params) {
     if(params === null || params ===undefined){
       params={};
     }
@@ -124,7 +124,7 @@ class Request{
   /***
    * axios config
    */
-  static getConfig(){
+  _getConfig(){
     let config = {};
     config.baseURL = process.env.API_ROOT;
     return config;
@@ -136,7 +136,7 @@ class Request{
    * @param params
    */
   getForCache(url, params){
-    let config = Request.getConfig();
+    let config = this._getConfig();
     config["params"] = params;
     return service.get(url, config);
   }
@@ -147,8 +147,8 @@ class Request{
    * @param params
    */
   get(url, params) {
-    let config = Request.getConfig();
-    config["params"] = Request.addTtoParams(params);
+    let config = this._getConfig();
+    config["params"] = this._addTtoParams(params);
     return service.get(url, config);
   }
   /**
@@ -159,8 +159,8 @@ class Request{
    * @returns {AxiosPromise<any>}
    */
   post(url, params) {
-    let config = Request.getConfig();
-    let data = Request.addTtoParams(params);
+    let config = this._getConfig();
+    let data = this._addTtoParams(params);
     return service.post(url, data, config);
   }
 
@@ -171,8 +171,8 @@ class Request{
    * @returns {AxiosPromise<any>}
    */
   put(url, params) {
-    let config = Request.getConfig();
-    let data = Request.addTtoParams(params);
+    let config = this._getConfig();
+    let data = this._addTtoParams(params);
     return axios.put(url,data, config);
   }
 
@@ -183,8 +183,8 @@ class Request{
    * @returns {AxiosPromise}
    */
   delete(url, params) {
-    let config = Request.getConfig();
-    config["params"] = Request.addTtoParams(params);
+    let config = this._getConfig();
+    config["params"] = this._addTtoParams(params);
     return service.delete(url, config);
   }
 }
@@ -198,10 +198,5 @@ class DnsRequest extends Request{
 /***
  * 生成request实例
  */
-const request = new Request();
-const dnsRequest = new DnsRequest();
-
-export {
-  request,
-  dnsRequest,
-}
+export const request = new Request();
+export const dnsRequest = new DnsRequest();
