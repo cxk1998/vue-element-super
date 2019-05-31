@@ -9,7 +9,6 @@ import store from './store'
 
 // 引入样式
 import 'element-ui/lib/theme-chalk/index.css'
-import 'font-awesome/css/font-awesome.css'
 import '@/assets/css/reset-ui.css'
 import '@/assets/css/style.css'
 import '@/assets/css/table.css'
