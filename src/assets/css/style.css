@@ -53,6 +53,7 @@ a {
   text-decoration: none
 }
 a:hover{
+  cursor: pointer;
   text-decoration: underline;
 }
 /***search-bar***/
@@ -70,25 +71,6 @@ a:hover{
 .search-bar .el-form .el-button{
   margin-left: 15px;
   margin-top: 4px;
-}
-
-/* ----------------------- public ---------------------- */
-
-/* 引入阿里矢量图 https: */
-@font-face {
-  font-family: 'atsFont';  /* project id 656395 */
-  src: url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.eot');
-  src: url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.woff') format('woff'),
-  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_656395_85tlynxoqr3mzpvi.svg#atsFont') format('svg');
-}
-
-/* 配合阿里矢量图使用 */
-.atsFont {
-  font-family: "atsFont";
-  font-size: 16px;
-  font-style: normal;
 }
 
 .clearfix:after {
@@ -119,62 +101,87 @@ a:hover{
 
 .default{
   background-color: #abbac3!important;
-  border-color: #abbac3;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .primary{
   background-color: #428bca!important;
-  border-color: #428bca;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .info{
   background-color: #6fb3e0!important;
-  border-color: #6fb3e0;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .success{
   background-color: #87b87f!important;
-  border-color: #87b87f;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .warning{
   background-color: #ffb752!important;
-  border-color: #ffb752;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .danger{
   background-color: #d3413b!important;
-  border-color: #d15b47;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .pink{
   background-color: #b73766!important;
-  border-color: #d6487e;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .inverse{
   background-color: #555!important;
-  border-color: #555;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .purple{
   background-color: #9585bf!important;
-  border-color: #9585bf;
-  color: #FFF!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .yellow{
   background-color: #fee188!important;
-  border-color: #fee188;
-  color: #963!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .grey{
   background-color: #a0a0a0!important;
-  border-color: #a0a0a0;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .light{
   background-color: #e7e7e7!important;
-  border-color: #e7e7e7;
-  color: #888!important;
+  border-radius: 10px;
+  font-size: .85rem;
+  color:#fff;
+  padding: 3px 6px;
 }
 .white{
   border-width: 1px;

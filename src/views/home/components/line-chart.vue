@@ -1,7 +1,5 @@
 <template>
-  <div style="margin: 30px;">
-    <div id="lineChart" style="width: 100%;height: 430px;background-color: #fff;"></div>
-  </div>
+  <div id="lineChart" style="width: 100%;height: 430px;background-color: #fff;"></div>
 </template>
 
 <script>

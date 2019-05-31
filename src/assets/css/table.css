@@ -9,6 +9,10 @@
   height: 38px;
   line-height: 38px;
 }
+.table-card .header > span{
+  font-size: 14px;
+  font-weight: bold;
+}
 .table-card .header ul{
   margin: 0;
   padding: 0;
@@ -20,12 +24,15 @@
 .table-card .header ul li{
   width: auto;
   float: left;
-  margin-top: 4px;
-  font-size: 10px;
-  height: 32px;
-  line-height: 32px;
+  font-size: 14px;
+  height: 38px;
+  line-height: 38px;
   border-left: 1px solid #ebeef5;
   padding: 0 10px;
+}
+.table-card .header ul li i{
+  font-size: 14px;
+  font-weight: bold;
 }
 .table-card .header ul li:hover{
   cursor: pointer;
@@ -45,10 +52,6 @@
 }
 .table-card .el-card__body {
   padding: 10px;
-}
-
-.table-column-status{
-  border-radius: 10px;font-weight: 400;font-size: .85rem;color:#fff;padding: 3px 8px;
 }
 
 /********************  el-pagination ***************************/

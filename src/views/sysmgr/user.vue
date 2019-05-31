@@ -78,7 +78,7 @@
     <el-dialog :title="dialogFormTitle" :visible.sync="dialogFormVisible" width="460px">
       <el-form :model="formFields" ref="formFields" :formRules="formRules" label-width="60px">
         <el-form-item label="用户名" prop="user_name">
-          <el-input v-model="formFields.user_name" :disabled="isEdit" auto-complete="off"></el-input>
+          <el-input v-model="formFields.user_name" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="描述" prop="descript">
           <el-input v-model="formFields.descript" auto-complete="off"></el-input>
@@ -100,8 +100,6 @@
       return {
         loadingTable: true,
         dialogFormTitle: "",
-        dialogFormUrl: "",
-        isEdit:false,
         dialogFormVisible: false,
         pageHeight: document.body.scrollHeight,
         logLoginTableData: [],

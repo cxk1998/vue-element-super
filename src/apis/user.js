@@ -16,6 +16,15 @@ export async function login(params){
 }
 
 /***
+ * 退出登录
+ * @returns {Promise<*>}
+ */
+export async function logout(){
+  let data = await 1;
+  return data;
+}
+
+/***
  * 分页查询
  * @param params like {current_page: 1,page_size: 10,user_name:''}
  * @returns {Promise<*>}
@@ -24,8 +33,9 @@ export async function getPageUser(params){
   let start_index = (params.current_page - 1) * params.page_size;
   let end_index = (params.current_page) * params.page_size;
   let data = await request.get('../../static/data/user.json',params);
-  let users = data.filter(user => {
-    if(user.id > start_index && user.id <= end_index){
+  let users = data.filter((user,index) => {
+    let real_index = index+1;
+    if(real_index > start_index && real_index <= end_index){
       if(isEmpty(params.user_name)){
         return user;
       }else if(user.user_name === params.user_name){

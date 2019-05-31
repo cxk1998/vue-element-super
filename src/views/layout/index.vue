@@ -3,10 +3,11 @@
     <el-header style="height: 50px;">
       <div class="set-left">
         <div style="float: left;">
-          <img src="/static/img/logo.png" style="width: 30px;height: 30px;"/><span style="margin-left: 10px;color: #fff;font-size: 14px;">运维一体化平台</span>
+          <img src="/static/img/logo.png" style="width: 30px;height: 30px;"/>
+          <span style="margin-left: 10px;color: #fff;font-size: 14px;">vue-element-super</span>
         </div>
         <div @click="monitorMenu" class="monitor-menu">
-          <i class="fa fa-list"></i>
+          <i class="iconfont icon-list" style="font-size: 20px;"></i>
         </div>
       </div>
       <div class="index-header-list set-right">
@@ -30,7 +31,7 @@
                 </div>
               </div>
               <div slot="reference" style="height: 50px;">
-                <i class="atsFont" style="font-size: 26px;margin-top: 20px;">&#xe639;</i>
+                <i class="iconfont icon-xiaoxi" style="font-size: 26px;margin-top: 20px;"></i>
                 <sup class="index-sup">{{ getUserMessage.length }}</sup>
               </div>
             </el-popover>
@@ -90,7 +91,7 @@
           </el-menu>
         </el-aside>
       </el-scrollbar>
-      <el-main>
+      <el-main v-bind:style="{ width: elMainWidth+'px' }">
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -99,6 +100,7 @@
 
 <script>
   import {getMenu} from '@/apis/menu'
+  import {logout} from "../../apis/user";
   import {getTree} from "../../utils/menu"
   import Cookies from 'js-cookie'
 
@@ -106,6 +108,7 @@
     name: "index",
     data() {
       return {
+        elMainWidth:document.body.scrollWidth-200,
         userMenuData: null,
         isCollapse: false,
         loginUser:{},
@@ -136,9 +139,9 @@
         let menudata = await getMenu();
         this.userMenuData = getTree(menudata, {id: "id", pid: "pid", rootPid: 0});
         if(this.loginUser.user_name === "admin"){
-          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/admin", "icon": "fa fa-home", "children": []});
+          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/admin", "icon": "iconfont icon-home", "children": []});
         }else{
-          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/guest", "icon": "fa fa-home", "children": []});
+          this.userMenuData.unshift({"id": 0, "name": "首页", "pid": 0, "url": "/home/guest", "icon": "iconfont icon-home", "children": []});
         }
         this.$store.commit('userMenuPermissions', this.userMenuData);
         this.$store.commit('currentMenu', this.$router.currentRoute.path);
@@ -156,22 +159,28 @@
         });
       },
       async loginOut() {
-        await request.post('/apis/sysmgr/user/logout',{}).then(data => {
-
-        }).catch(error =>{
-
-        }).finally(() => {
-          Cookies.remove("user");
-          Cookies.remove("token");
-          this.$router.push('/login');
-        });
+        await logout();
+        Cookies.remove("user");
+        Cookies.remove("token");
+        this.$router.push('/login');
       },
       //监听菜单缩放
-      monitorMenu: function () {
-        return !this.isCollapse
+      monitorMenu(){
+        if(this.isCollapse){
+          this.elMainWidth = 63;
+        }else{
+          this.elMainWidth = 200;
+        }
+        this.isCollapse = !this.isCollapse;
       },
       gotoHome:function () {
-        this.$router.push('/home');
+        if(this.loginUser.user_name === 'admin'){
+          this.$router.push({path:'/home/admin'});
+        }else if(this.loginUser.user_name === 'guest'){
+          this.$router.push('/home/guest');
+        }else{
+          this.$router.push('/403');
+        }
       },
       gotoGithub:function () {
         window.location.href = 'https://github.com/ljphilp/vue-element-super';
